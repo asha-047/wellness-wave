@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - WellnessWave</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="register.html" class="bg-image">
+
+    <div id="preloader" class="preloader"><div class="spinner"></div></div>
+    
+    <div id="main-content" class="page flex items-center justify-center min-h-screen">
+        <div class="container mx-auto max-w-md p-4">
+            <div class="content-card animate-on-scroll visible">
+                <div class="text-center mb-8">
+                    <a href="index.html" class="text-3xl font-bold">
+                        <span class="text-primary">Wellness</span>Wave
+                    </a>
+                    <h2 class="text-2xl font-bold mt-4">Create Your Account ✨</h2>
+                </div>
+                <form class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-medium text-light mb-1">Email Address</label>
+                        <input type="email" required class="input-field">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-light mb-1">Password</label>
+                        <input type="password" required class="input-field">
+                    </div>
+                    <button type="submit" class="btn btn-primary w-full !py-3 !text-base">Create Account</button>
+                </form>
+                <p class="text-center text-sm text-light mt-6">
+                    Already have an account? <a href="login.html" class="font-semibold text-primary hover:underline">Sign in here</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <script src="main.js"></script>
+</body>
+</html>

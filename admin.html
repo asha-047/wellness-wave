@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - WellnessWave</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="admin.html" class="bg-image">
+
+    <script>
+        const userRole = sessionStorage.getItem('userRole');
+        if (userRole !== 'admin') {
+            alert('Access Denied. Please log in as an admin to view this page.');
+            window.location.href = 'login.html';
+        }
+    </script>
+
+    <div id="preloader" class="preloader"><div class="spinner"></div></div>
+    
+    <div id="main-content">
+        <header class="sticky top-0 z-50">
+            <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+                <a href="index.html" class="text-xl font-bold flex items-center gap-2">
+                    <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    WellnessWave
+                </a>
+                <div class="hidden md:flex items-center space-x-2 text-sm font-medium">
+                    <a href="index.html" class="nav-link"> Home</a>
+                    <a href="chat.html" class="nav-link"> Chat Support</a>
+                    <a href="booking.html" class="nav-link"> Book Appointment</a>
+                    <a href="resources.html" class="nav-link">Resources</a>
+                    <a href="forum.html" class="nav-link"> Community</a>
+                    <a href="admin.html" class="nav-link">Admin Portal</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="login.html" id="login-button" class="btn btn-primary">Sign In</a>
+                    <button id="logout-button" class="btn btn-primary" style="display: none;">Sign Out</button>
+                </div>
+            </nav>
+        </header>
+
+        <main class="page">
+            <div class="container mx-auto px-6 py-10">
+                <h1 class="text-3xl font-bold mb-1">Admin Dashboard</h1>
+                <p class="text-light mb-8">Monitor platform usage and student mental health support metrics.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" id="stats-grid">
+                    </div>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
+                    <div class="lg:col-span-2 content-card">
+                        <h3 class="font-bold mb-4">Usage Trends</h3>
+                        <div class="space-y-4" id="usage-trends">
+                            </div>
+                    </div>
+                    <div class="content-card">
+                        <h3 class="font-bold mb-4">Recent Activity</h3>
+                        <ul class="space-y-4" id="recent-activity">
+                            </ul>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script src="main.js"></script>
+    <script>
+        const stats = [
+            { label: 'Active Users', value: '1,247', change: '+12.3%', changeType: 'success', icon: '👥' },
+            { label: 'AI Chat Sessions', value: '3,456', change: '+8.7%', changeType: 'success', icon: '💬' },
+            { label: 'Appointments Booked', value: '234', change: '-2.1%', changeType: 'danger', icon: '📅' },
+            { label: 'Resource Views', value: '8,912', change: '+15.4%', changeType: 'success', icon: '📚' }
+        ];
+        const trends = [
+            { label: 'Week 1', value: 1340, max: 1500 }, { label: 'Week 2', value: 1456, max: 1500 },
+            { label: 'Week 3', value: 1389, max: 1500 }, { label: 'Week 4', value: 1247, max: 1500 }
+        ];
+        const activity = [
+            { text: 'High-volume anxiety support requests', time: '2 hours ago', icon: '⚠️' },
+            { text: 'Crisis intervention booked', time: '3 hours ago', icon: '🆘' },
+        ];
+        document.addEventListener('DOMContentLoaded', () => {
+            const statsGrid = document.getElementById('stats-grid');
+            stats.forEach(stat => {
+                const changeColor = stat.changeType === 'success' ? 'stat-success-text' : 'stat-danger-text';
+                const bgColor = stat.changeType === 'success' ? 'stat-success-bg' : 'stat-danger-bg';
+                statsGrid.innerHTML += `<div class="content-card"><div class="flex justify-between items-center"><div class="stat-card-icon ${bgColor}">${stat.icon}</div><span class="text-sm font-bold ${changeColor}">${stat.change}</span></div><p class="text-3xl font-bold mt-4">${stat.value}</p><p class="text-light text-sm">${stat.label}</p></div>`;
+            });
+            const usageTrends = document.getElementById('usage-trends');
+            trends.forEach(trend => {
+                const percentage = (trend.value / trend.max) * 100;
+                usageTrends.innerHTML += `<div><div class="flex justify-between items-center mb-1 text-sm"><p>${trend.label}</p><p class="font-bold">${trend.value}</p></div><div class="progress-bar"><div style="background: var(--primary-gradient); width: ${percentage}%"></div></div></div>`;
+            });
+            const recentActivity = document.getElementById('recent-activity');
+            activity.forEach(item => {
+                recentActivity.innerHTML += `<li class="flex items-start gap-4"><div class="stat-card-icon !w-10 !h-10 bg-gray-100">${item.icon}</div><div><p class="font-medium text-sm">${item.text}</p><p class="text-xs text-light">${item.time}</p></div></li>`;
+            });
+        });
+    </script>
+</body>
+</html>

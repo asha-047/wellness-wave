@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Forum - WellnessWave</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="forum.html" class="bg-image">
+
+    <div id="preloader" class="preloader"><div class="spinner"></div></div>
+    
+    <div id="main-content">
+        <header class="sticky top-0 z-50">
+            <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+                <a href="index.html" class="text-xl font-bold flex items-center gap-2">
+                    <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    WellnessWave
+                </a>
+                <div class="hidden md:flex items-center space-x-2 text-sm font-medium">
+                    <a href="index.html" class="nav-link"> Home</a>
+                    <a href="chat.html" class="nav-link"> Chat Support</a>
+                    <a href="booking.html" class="nav-link"> Book Appointment</a>
+                    <a href="resources.html" class="nav-link">Resources</a>
+                    <a href="forum.html" class="nav-link"> Community</a>
+                    <a href="dashboard.html" class="nav-link" style="display: none;">Dashboard</a>
+                    <a href="admin.html" class="nav-link" style="display: none;"> Admin Portal</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="login.html" id="login-button" class="btn btn-primary">Sign In</a>
+                    <button id="logout-button" class="btn btn-primary" style="display: none;">Sign Out</button>
+                </div>
+            </nav>
+        </header>
+
+        <main class="page">
+            <div class="container mx-auto max-w-3xl p-4 py-10">
+                <div class="text-center animate-on-scroll">
+                    <h2 class="text-3xl font-bold text-center mb-4">Anonymous Peer Forum</h2>
+                    <p class="text-center text-light mb-8">Share your thoughts and connect with others. All posts are anonymous.</p>
+                </div>
+
+                <div class="content-card mb-8 animate-on-scroll" style="transition-delay: 150ms;">
+                    <form>
+                        <textarea class="input-field" placeholder="Share something on your mind..." rows="3"></textarea>
+                        <div class="flex justify-end items-center mt-4">
+                            <button type="submit" class="btn btn-primary">Post Anonymously</button>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="space-y-4">
+                    <div class="content-card !p-6 animate-on-scroll" style="transition-delay: 300ms;">
+                       <p>Feeling really overwhelmed with exams this week. Any tips for managing stress?</p>
+                       <div class="flex justify-between items-center mt-4 text-xs text-light">
+                           <span class="tag bg-blue-100">Academic</span>
+                           <span>September 13, 2025</span>
+                       </div>
+                    </div>
+                     <div class="content-card !p-6 animate-on-scroll" style="transition-delay: 450ms;">
+                       <p>Just wanted to share a small win: I went for a walk today even though I didn't feel like it.</p>
+                       <div class="flex justify-between items-center mt-4 text-xs text-light">
+                           <span class="tag bg-green-100">Wellness Tips</span>
+                           <span>September 12, 2025</span>
+                       </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script src="main.js"></script>
+</body>
+</html>

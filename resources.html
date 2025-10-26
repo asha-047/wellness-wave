@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resource Library - WellnessWave</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="resources.html" class="bg-image">
+
+    <div id="preloader" class="preloader"><div class="spinner"></div></div>
+    
+    <div id="main-content">
+        <header class="sticky top-0 z-50">
+            <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+                <a href="index.html" class="text-xl font-bold flex items-center gap-2">
+                    <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    WellnessWave
+                </a>
+                <div class="hidden md:flex items-center space-x-2 text-sm font-medium">
+                   <a href="index.html" class="nav-link"> Home</a>
+                    <a href="chat.html" class="nav-link"> Chat Support</a>
+                    <a href="booking.html" class="nav-link"> Book Appointment</a>
+                    <a href="resources.html" class="nav-link">Resources</a>
+                    <a href="forum.html" class="nav-link"> Community</a>
+                    <a href="dashboard.html" class="nav-link" style="display: none;">Dashboard</a>
+                    <a href="admin.html" class="nav-link" style="display: none;"> Admin Portal</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="login.html" id="login-button" class="btn btn-primary">Sign In</a>
+                    <button id="logout-button" class="btn btn-primary" style="display: none;">Sign Out</button>
+                </div>
+            </nav>
+        </header>
+
+        <main class="page">
+            <div class="container mx-auto px-6 py-10">
+                <div class="text-center mb-8">
+                    <h1 class="text-3xl font-bold">Resource Library</h1>
+                    <p class="mt-2 text-light">Access comprehensive mental health resources designed for students.</p>
+                </div>
+
+                <div class="flex justify-center mb-8 border-b border-border-color">
+                    <button id="all-resources-tab" class="px-4 py-2 text-lg font-medium active-tab">All Resources</button>
+                    <button id="my-resources-tab" class="px-4 py-2 text-lg font-medium" style="display: none;">My Resources</button>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                    <aside id="filter-sidebar" class="lg:col-span-1">
+                        <div class="content-card space-y-6">
+                            <h3 class="font-bold">Browse by Category</h3>
+                            <div class="flex flex-wrap gap-2" id="category-filters"></div>
+                            <h3 class="font-bold pt-4 border-t border-border-color">Filter by Format</h3>
+                            <div class="flex flex-wrap gap-2" id="format-filters"></div>
+                        </div>
+                    </aside>
+
+                    <main class="lg:col-span-3">
+                        <div id="no-saved-resources-message" class="hidden text-center text-light py-10">
+                            You have no saved resources yet. Click the "Save" button on a resource to add it here!
+                        </div>
+                        <div id="login-prompt-message" class="hidden text-center text-light py-10">
+                            <a href="login.html" class="text-primary font-semibold hover:underline">Sign in</a> to save resources and view them here.
+                        </div>
+                        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="resource-grid"></div>
+                    </main>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script src="main.js"></script>
+    <script>
+        const resources = [
+            { id: 1, title: 'Managing Exam Anxiety', category: 'Anxiety', format: 'Article', url: 'https://www.monash.edu/change-of-preference/managing-exam-anxiety-a-step-by-step-guide', image: 'https://placehold.co/600x400/a7c7e7/4F4F4F?text=Anxiety+Help', duration: '8 min read' },
+            { id: 2, title: 'Sleep Hygiene for Students', category: 'Sleep', format: 'Video', url: 'https://www.youtube.com/watch?v=ACmUi-6xkTM', image: 'https://placehold.co/600x400/b2d8d8/4F4F4F?text=Sleep+Video', duration: '12:15' },
+            { id: 3, title: 'Mindfulness Meditation', category: 'Mindfulness', format: 'Video', url: 'https://www.youtube.com/watch?v=ZToicYcHIOU', image: 'https://placehold.co/600x400/d7e5f0/4F4F4F?text=Meditation', duration: '10:00' },
+            { id: 4, title: 'Understanding Depression', category: 'Depression', format: 'Article', url: 'https://www.who.int/news-room/fact-sheets/detail/depression', image: 'https://placehold.co/600x400/e0b5b5/4F4F4F?text=Depression+Info', duration: '10 min read' },
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const resourceGrid = document.getElementById('resource-grid');
+            const categoryFilters = document.getElementById('category-filters');
+            const formatFilters = document.getElementById('format-filters');
+            const allResourcesTab = document.getElementById('all-resources-tab');
+            const myResourcesTab = document.getElementById('my-resources-tab');
+            const filterSidebar = document.getElementById('filter-sidebar');
+            const noSavedMessage = document.getElementById('no-saved-resources-message');
+            const loginPromptMessage = document.getElementById('login-prompt-message');
+
+            const loggedIn = sessionStorage.getItem('userRole') === 'user';
+            
+            if (loggedIn) {
+                myResourcesTab.style.display = 'block';
+            }
+
+            let activeCategory = null;
+            let activeFormat = null;
+            let currentView = 'all';
+            let savedResources = JSON.parse(localStorage.getItem('savedResources')) || [];
+
+            const isSaved = (resourceId) => savedResources.includes(resourceId);
+            
+            const renderResources = (filteredList) => {
+                resourceGrid.innerHTML = '';
+                loginPromptMessage.classList.add('hidden');
+                noSavedMessage.classList.add('hidden');
+
+                if (currentView === 'saved' && !loggedIn) {
+                    loginPromptMessage.classList.remove('hidden');
+                    return;
+                }
+                
+                if (filteredList.length === 0 && currentView === 'saved') {
+                    noSavedMessage.classList.remove('hidden');
+                }
+
+                filteredList.forEach(res => {
+                    const savedText = isSaved(res.id) ? 'Saved' : 'Save';
+                    const savedClass = isSaved(res.id) ? 'btn-primary' : 'btn-outline';
+                    const saveButtonHTML = loggedIn ? `<button class="btn ${savedClass} save-btn !py-1 !px-3 !text-sm" data-id="${res.id}">${savedText}</button>` : '';
+
+                    const card = `
+                    <div class="resource-card animate-on-scroll" data-id="${res.id}">
+                        <div class="relative">
+                            <img src="${res.image}" alt="${res.title}" class="w-full h-40 object-cover">
+                            <span class="absolute top-2 right-2 bg-black/50 text-white text-xs font-bold py-1 px-2 rounded-full">${res.duration}</span>
+                        </div>
+                        <div class="p-4">
+                            <span class="tag bg-blue-100">${res.category}</span>
+                            <h4 class="font-bold mt-2">${res.title}</h4>
+                            <div class="flex ${loggedIn ? 'justify-between' : 'justify-end'} items-center mt-4">
+                                ${saveButtonHTML}
+                                <a href="${res.url}" class="btn btn-primary !py-1 !px-3 !text-sm" target="_blank">Open</a>
+                            </div>
+                        </div>
+                    </div>`;
+                    resourceGrid.innerHTML += card;
+                });
+                
+                document.querySelectorAll('.animate-on-scroll').forEach(el => new IntersectionObserver((e) => e.forEach(en => en.isIntersecting && en.target.classList.add('visible'))).observe(el));
+            };
+
+            const updateFilters = () => {
+                let filteredList = resources;
+                if (currentView === 'saved') {
+                    if (loggedIn) {
+                        filteredList = resources.filter(res => isSaved(res.id));
+                    } else {
+                        filteredList = [];
+                    }
+                    filterSidebar.classList.add('hidden');
+                } else {
+                    filterSidebar.classList.remove('hidden');
+                    if (activeCategory) {
+                        filteredList = filteredList.filter(res => res.category === activeCategory);
+                    }
+                    if (activeFormat) {
+                        filteredList = filteredList.filter(res => res.format === activeFormat);
+                    }
+                }
+                renderResources(filteredList);
+            };
+
+            const toggleSave = (resourceId, button) => {
+                if (!loggedIn) return;
+                const index = savedResources.indexOf(resourceId);
+                if (index > -1) {
+                    savedResources.splice(index, 1);
+                    button.textContent = 'Save';
+                    button.classList.remove('btn-primary');
+                    button.classList.add('btn-outline');
+                } else {
+                    savedResources.push(resourceId);
+                    button.textContent = 'Saved';
+                    button.classList.remove('btn-outline');
+                    button.classList.add('btn-primary');
+                }
+                localStorage.setItem('savedResources', JSON.stringify(savedResources));
+                if (currentView === 'saved') {
+                    updateFilters();
+                }
+            };
+            
+            const showTab = (tab) => {
+                currentView = tab;
+                allResourcesTab.classList.remove('active-tab');
+                myResourcesTab.classList.remove('active-tab');
+                if (tab === 'all') {
+                    allResourcesTab.classList.add('active-tab');
+                } else {
+                    if(loggedIn) {
+                       myResourcesTab.classList.add('active-tab');
+                    }
+                }
+                updateFilters();
+            };
+
+            const categories = [...new Set(resources.map(r => r.category))];
+            const formats = [...new Set(resources.map(r => r.format))];
+
+            categories.forEach(cat => {
+                categoryFilters.innerHTML += `<button class="tag bg-gray-100">${cat}</button>`;
+            });
+            formats.forEach(form => {
+                formatFilters.innerHTML += `<button class="tag bg-gray-100">${form}</button>`;
+            });
+
+            allResourcesTab.addEventListener('click', () => showTab('all'));
+            myResourcesTab.addEventListener('click', () => {
+                showTab('saved')
+            });
+
+            categoryFilters.addEventListener('click', (e) => {
+                if (e.target.tagName === 'BUTTON') {
+                    const selectedCategory = e.target.innerText;
+                    if (activeCategory === selectedCategory) {
+                        activeCategory = null;
+                        e.target.classList.remove('active-filter');
+                    } else {
+                        categoryFilters.querySelectorAll('button').forEach(btn => btn.classList.remove('active-filter'));
+                        activeCategory = selectedCategory;
+                        e.target.classList.add('active-filter');
+                    }
+                    updateFilters();
+                }
+            });
+
+            formatFilters.addEventListener('click', (e) => {
+                if (e.target.tagName === 'BUTTON') {
+                    const selectedFormat = e.target.innerText;
+                    if (activeFormat === selectedFormat) {
+                        activeFormat = null;
+                        e.target.classList.remove('active-filter');
+                    } else {
+                        formatFilters.querySelectorAll('button').forEach(btn => btn.classList.remove('active-filter'));
+                        activeFormat = selectedFormat;
+                        e.target.classList.add('active-filter');
+                    }
+                    updateFilters();
+                }
+            });
+            
+            resourceGrid.addEventListener('click', (e) => {
+                if (e.target.classList.contains('save-btn')) {
+                    const resourceId = parseInt(e.target.getAttribute('data-id'));
+                    toggleSave(resourceId, e.target);
+                }
+            });
+
+            showTab('all');
+        });
+    </script>
+</body>
+</html>

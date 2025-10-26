@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard - WellnessWave</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="dashboard.html" class="bg-image">
+
+    <script>
+        // Protect this page - redirect if not logged in as a user
+        const userRole = sessionStorage.getItem('userRole');
+        if (userRole !== 'user') {
+            alert("Please sign in to view your dashboard.");
+            window.location.href = 'login.html';
+        }
+    </script>
+
+    <div id="preloader" class="preloader"><div class="spinner"></div></div>
+
+    <div id="main-content">
+        <header class="sticky top-0 z-50">
+            <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+                <a href="index.html" class="text-xl font-bold flex items-center gap-2">
+                    <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    WellnessWave
+                </a>
+                <div class="hidden md:flex items-center space-x-2 text-sm font-medium">
+                   <a href="index.html" class="nav-link"> Home</a>
+                    <a href="chat.html" class="nav-link"> Chat Support</a>
+                    <a href="booking.html" class="nav-link"> Book Appointment</a>
+                    <a href="resources.html" class="nav-link">Resources</a>
+                    <a href="forum.html" class="nav-link"> Community</a>
+                    <a href="dashboard.html" class="nav-link" style="display: none;">Dashboard</a>
+                    <a href="admin.html" class="nav-link" style="display: none;"> Admin Portal</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="font-medium text-light hidden sm:block">Welcome, User</span>
+                    <button id="logout-button" class="btn btn-primary">Sign Out</button>
+                </div>
+            </nav>
+        </header>
+
+        <main class="page">
+            <section class="relative py-20 md:py-24">
+                <div class="container mx-auto px-6 text-center">
+                    <h1 class="text-4xl md:text-5xl font-extrabold leading-tight animate-on-scroll">
+                        Welcome to Your <span class="text-primary">Dashboard</span>
+                    </h1>
+                    <p class="mt-6 text-lg text-light max-w-2xl mx-auto animate-on-scroll" style="transition-delay: 150ms;">
+                        Here's your personalized space to manage your wellness journey. You are not alone. 🌸
+                    </p>
+                </div>
+            </section>
+
+            <section class="pb-16 sm:pb-24">
+                <div class="container mx-auto px-6">
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <div class="animate-on-scroll" style="transition-delay: 100ms;">
+                            <div class="feature-card h-full flex flex-col">
+                                <div>
+                                    <div class="feature-card-icon" style="background: linear-gradient(135deg, #ffdab9, #ffa07a);"><span class="text-2xl">📚</span></div>
+                                    <h3 class="font-bold text-lg mb-2">Saved Resources</h3>
+                                    <p class="text-sm text-light mb-4">Quickly access all your bookmarked articles, videos, and guides.</p>
+                                </div>
+                                <a href="resources.html" class="btn btn-primary w-full mt-auto">View Resources</a>
+                            </div>
+                        </div>
+                        <div class="animate-on-scroll" style="transition-delay: 200ms;">
+                            <div class="feature-card h-full flex flex-col">
+                                <div>
+                                    <div class="feature-card-icon" style="background: linear-gradient(135deg, #89cff0, #6495ed);"><span class="text-2xl">💬</span></div>
+                                    <h3 class="font-bold text-lg mb-2">Chat History</h3>
+                                    <p class="text-sm text-light mb-4">Continue your conversations with the AI support assistant.</p>
+                                </div>
+                                <a href="chat.html" class="btn btn-primary w-full mt-auto">Open Chat</a>
+                            </div>
+                        </div>
+                        <div class="animate-on-scroll" style="transition-delay: 300ms;">
+                            <div class="feature-card h-full flex flex-col">
+                                <div>
+                                    <div class="feature-card-icon" style="background: linear-gradient(135deg, #e6e6fa, #d8bfd8);"><span class="text-2xl">👥</span></div>
+                                    <h3 class="font-bold text-lg mb-2">Your Forum Posts</h3>
+                                    <p class="text-sm text-light mb-4">Check your contributions and discussions in the community forum.</p>
+                                </div>
+                                <a href="forum.html" class="btn btn-primary w-full mt-auto">View Posts</a>
+                            </div>
+                        </div>
+                        <div class="animate-on-scroll" style="transition-delay: 400ms;">
+                            <div class="feature-card h-full flex flex-col">
+                                <div>
+                                    <div class="feature-card-icon" style="background: linear-gradient(135deg, #98fb98, #66cdab);"><span class="text-2xl">📅</span></div>
+                                    <h3 class="font-bold text-lg mb-2">Booking History</h3>
+                                    <p class="text-sm text-light mb-4">Review your previous and upcoming appointments.</p>
+                                </div>
+                                <a href="booking.html" class="btn btn-primary w-full mt-auto">View Bookings</a>
+                            </div>
+                        </div>
+                        <div class="animate-on-scroll" style="transition-delay: 500ms;">
+                            <div class="feature-card h-full flex flex-col">
+                                <div>
+                                    <div class="feature-card-icon" style="background: linear-gradient(135deg, #ffb6c1, #ffc1cc);"><span class="text-2xl">🌸</span></div>
+                                    <h3 class="font-bold text-lg mb-2">Daily Tips</h3>
+                                    <p class="text-sm text-light mb-4">Stay inspired with new tips every day for a healthier mindset.</p>
+                                </div>
+                                <a href="#" class="btn btn-primary w-full mt-auto">See Tips</a>
+                            </div>
+                        </div>
+                        <div class="animate-on-scroll" style="transition-delay: 600ms;">
+                            <div class="feature-card h-full flex flex-col">
+                                <div>
+                                    <div class="feature-card-icon" style="background: linear-gradient(135deg, #d8bfd8, #dda0dd);"><span class="text-2xl">⚙️</span></div>
+                                    <h3 class="font-bold text-lg mb-2">Profile Settings</h3>
+                                    <p class="text-sm text-light mb-4">Update your personal info and manage notification preferences.</p>
+                                </div>
+                                <a href="profile.html" class="btn btn-primary w-full mt-auto">Edit Profile</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <script src="main.js"></script>
+</body>
+</html>
+

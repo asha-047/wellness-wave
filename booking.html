@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Appointment - WellnessWave</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="booking.html" class="bg-image">
+
+  <div id="preloader" class="preloader"><div class="spinner"></div></div>
+  
+  <div id="main-content">
+    <header class="sticky top-0 z-50">
+      <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+        <a href="index.html" class="text-xl font-bold flex items-center gap-2">
+          <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+          WellnessWave
+        </a>
+        <div class="hidden md:flex items-center space-x-2 text-sm font-medium">
+            <a href="index.html" class="nav-link"> Home</a>
+                    <a href="chat.html" class="nav-link"> Chat Support</a>
+                    <a href="booking.html" class="nav-link"> Book Appointment</a>
+                    <a href="resources.html" class="nav-link">Resources</a>
+                    <a href="forum.html" class="nav-link"> Community</a>
+                    <a href="dashboard.html" class="nav-link" style="display: none;">Dashboard</a>
+                    <a href="admin.html" class="nav-link" style="display: none;"> Admin Portal</a>
+        </div>
+        <div class="flex items-center space-x-4">
+          <a href="login.html" id="login-button" class="btn btn-primary">Sign In</a>
+          <button id="logout-button" class="btn btn-primary" style="display: none;">Sign Out</button>
+        </div>
+      </nav>
+    </header>
+
+    <main class="page">
+      <div class="container mx-auto max-w-2xl p-4 py-10">
+        <div class="content-card animate-on-scroll">
+          <h2 class="text-3xl font-bold text-center mb-2">Book a Confidential Session</h2>
+          <p class="text-center text-light mb-8">Your privacy is our priority. Share as much as you're comfortable with.</p>
+          
+          <form id="appointmentForm" class="space-y-6">
+            
+            <div>
+              <label class="block text-sm font-medium text-light mb-1">Your Name</label>
+              <input type="text" id="studentName" class="input-field w-full" placeholder="Enter your full name" required>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-light mb-1">Email</label>
+              <input type="email" id="studentEmail" class="input-field w-full" placeholder="Enter your email" required>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-light mb-1">Preferred Date</label>
+              <input type="date" id="appointmentDate" class="input-field w-full" required>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-light mb-1">Preferred Time</label>
+              <input type="time" id="appointmentTime" class="input-field w-full" required>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-light mb-1">Mode of Counselling</label>
+              <select id="mode" class="input-field w-full" required>
+                <option value="" disabled selected>Select mode</option>
+                <option value="in-person">In-Person</option>
+                <option value="online">Online</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-light mb-1">Reason (Optional)</label>
+              <textarea id="reason" rows="4" class="input-field w-full" placeholder="e.g., feeling anxious about exams..."></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-full !py-3 !text-base">Confirm Booking</button>
+          </form>
+
+          <div id="confirmation" class="hidden confirmation-message">
+            ✅ Your appointment has been booked successfully!
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="main.js"></script>
+  <script>
+    document.getElementById("appointmentForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      this.reset();
+      
+      const confirmationDiv = document.getElementById("confirmation");
+      confirmationDiv.classList.remove("hidden");
+      
+      setTimeout(() => {
+          confirmationDiv.classList.add("hidden");
+      }, 5000);
+    });
+  </script>
+</body>
+</html>

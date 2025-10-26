@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WellnessWave - Mental Wellness Support</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="index.html" class="bg-image">
+
+    <div id="preloader" class="preloader"><div class="spinner"></div></div>
+    
+    <div id="main-content">
+        <header class="sticky top-0 z-50">
+            <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+                <a href="index.html" class="text-xl font-bold flex items-center gap-2">
+                    <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    WellnessWave
+                </a>
+                <div class="hidden md:flex items-center space-x-2 text-sm font-medium">
+                    <a href="index.html" class="nav-link"> Home</a>
+                    <a href="chat.html" class="nav-link"> Chat Support</a>
+                    <a href="booking.html" class="nav-link"> Book Appointment</a>
+                    <a href="resources.html" class="nav-link">Resources</a>
+                    <a href="forum.html" class="nav-link"> Community</a>
+                    <a href="dashboard.html" class="nav-link" style="display: none;">Dashboard</a>
+                    <a href="admin.html" class="nav-link" style="display: none;"> Admin Portal</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="login.html" id="login-button" class="btn btn-primary">Sign In</a>
+                    <button id="logout-button" class="btn btn-primary" style="display: none;">Sign Out</button>
+                </div>
+            </nav>
+        </header>
+
+        <main class="page">
+             <section class="relative py-20 md:py-32">
+                <div class="container mx-auto px-6 text-center relative z-10">
+                    <h1 class="text-4xl md:text-6xl font-extrabold leading-tight animate-on-scroll">
+                        Mental Wellness Support <br class="hidden md:block" /> for <span class="text-primary">Students</span>
+                    </h1>
+                    <p class="mt-6 text-lg text-light max-w-2xl mx-auto animate-on-scroll" style="transition-delay: 150ms;">
+                        A safe, confidential platform designed to support your mental health journey.
+                    </p>
+                    <div class="mt-10 flex flex-col sm:flex-row justify-center items-center gap-4 animate-on-scroll" style="transition-delay: 300ms;">
+                        <a href="chat.html" class="btn btn-primary !px-8 !py-3 w-full sm:w-auto"><span>💬</span> Start Chat Support</a>
+                        <a href="resources.html" class="btn btn-outline !px-8 !py-3 w-full sm:w-auto"><span>📚</span> Explore Resources</a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="py-16 sm:py-24">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-12 animate-on-scroll">
+                        <h2 class="text-3xl font-bold">How We Support You</h2>
+                        <p class="mt-2 text-light max-w-2xl mx-auto">Our platform offers comprehensive mental health support for students.</p>
+                    </div>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        <a href="chat.html" class="block animate-on-scroll" style="transition-delay: 100ms;">
+                            <div class="feature-card h-full">
+                                <div class="feature-card-icon"><span class="text-2xl">💬</span></div>
+                                <h3 class="font-bold text-lg mb-2">AI First-Aid Support</h3>
+                                <p class="text-sm text-light">Get immediate emotional support through our AI chatbot, available 24/7.</p>
+                            </div>
+                        </a>
+                        <a href="booking.html" class="block animate-on-scroll" style="transition-delay: 200ms;">
+                            <div class="feature-card h-full">
+                                <div class="feature-card-icon"><span class="text-2xl">📅</span></div>
+                                <h3 class="font-bold text-lg mb-2">Confidential Appointments</h3>
+                                <p class="text-sm text-light">Book anonymous sessions with mental health professionals.</p>
+                            </div>
+                        </a>
+                        <a href="resources.html" class="block animate-on-scroll" style="transition-delay: 300ms;">
+                            <div class="feature-card h-full">
+                                <div class="feature-card-icon"><span class="text-2xl">📚</span></div>
+                                <h3 class="font-bold text-lg mb-2">Resource Library</h3>
+                                <p class="text-sm text-light">Access curated articles, videos, and materials for mental wellness.</p>
+                            </div>
+                        </a>
+                        <a href="forum.html" class="block animate-on-scroll" style="transition-delay: 400ms;">
+                            <div class="feature-card h-full">
+                                <div class="feature-card-icon"><span class="text-2xl">👥</span></div>
+                                <h3 class="font-bold text-lg mb-2">Peer Support</h3>
+                                <p class="text-sm text-light">Connect with fellow students in moderated, anonymous discussions.</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="py-16 sm:py-24">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-12 animate-on-scroll">
+                        <h2 class="text-3xl font-bold">Need Immediate Support?</h2>
+                        <p class="mt-2 text-light max-w-3xl mx-auto">If you are in distress, please reach out to these confidential helplines. You are not alone.</p>
+                    </div>
+                    <div class="max-w-6xl mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <div class="content-card text-center animate-on-scroll" style="transition-delay: 100ms;">
+                            <div class="feature-card-icon mx-auto" style="background: linear-gradient(135deg, #ff9a9e, #fad0c4);">
+                                <span class="text-2xl">📞</span>
+                            </div>
+                            <h3 class="font-bold text-lg mb-2">KIRAN Helpline</h3>
+                            <p class="text-sm text-light mb-4">A 24/7 helpline by the Ministry of Social Justice and Empowerment.</p>
+                            <a href="tel:18005990019" class="btn btn-primary">Call 1800-599-0019</a>
+                        </div>
+                        <div class="content-card text-center animate-on-scroll" style="transition-delay: 200ms;">
+                             <div class="feature-card-icon mx-auto" style="background: linear-gradient(135deg, #a1c4fd, #c2e9fb);">
+                                <span class="text-2xl">📞</span>
+                            </div>
+                            <h3 class="font-bold text-lg mb-2">Tele-MANAS Helpline</h3>
+                            <p class="text-sm text-light mb-4">A 24/7 national tele-mental health service by the Govt. of India.</p>
+                            <a href="tel:14416" class="btn btn-primary">Call 14416</a>
+                        </div>
+                        <div class="content-card text-center animate-on-scroll" style="transition-delay: 300ms;">
+                             <div class="feature-card-icon mx-auto" style="background: linear-gradient(135deg, #98fb98, #66cdab);">
+                                <span class="text-2xl">🏫</span>
+                            </div>
+                            <h3 class="font-bold text-lg mb-2">Connect To College Counselor</h3>
+                            <p class="text-sm text-light mb-4">Feel free to reach out to your designated college counselor.</p>
+                            <a href="tel:1804523657" class="btn btn-primary">Call 1804-523-657</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="py-16 sm:py-24">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-12 animate-on-scroll">
+                        <h2 class="text-3xl font-bold">Daily Wellness Tips</h2>
+                        <p class="mt-2 text-light max-w-2xl mx-auto">Simple practices for a better state of mind.</p>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                        <div class="glass-card animate-on-scroll" style="transition-delay: 100ms;"><span>🧠</span> Take regular study breaks to prevent burnout.</div>
+                        <div class="glass-card animate-on-scroll" style="transition-delay: 200ms;"><span>🧘</span> Practice deep breathing when feeling overwhelmed.</div>
+                        <div class="glass-card animate-on-scroll" style="transition-delay: 300ms;"><span>😴</span> Maintain a consistent sleep schedule for better mental clarity.</div>
+                        <div class="glass-card animate-on-scroll" style="transition-delay: 400ms;"><span>🤝</span> Stay connected with friends and family for support.</div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <script src="main.js"></script>
+</body>
+</html>
