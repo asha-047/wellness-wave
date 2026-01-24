@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
         
         // --- IMPORTANT: Replace placeholders with your actual keys ---
        // --- Hardcode your API Key here ---
-        const geminiApiKey = 'AIzaSyDislu1r_oeyF3eB7YJish2BNYUoNAgdQ4'; // Replace with your actual Gemini Key
+        const geminiApiKey = 'AIzaSyAw-AgxZgDRLQiWGblSoVmPXqX4GmTzX08'; // Replace with your actual Gemini Key
         
         // --- EmailJS Configuration ---
         const emailJsPublicKey = 'VeVJEM57sKRYJ5L9b';
@@ -279,4 +279,5 @@ document.addEventListener("DOMContentLoaded", () => {
         setLanguage(savedLanguage);
     }
     // --- END: AI CHATBOT LOGIC ---
+
 });
