@@ -217,7 +217,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         async function callGeminiApi() {
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${geminiApiKey}`;
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiApiKey}`;
             const systemInstruction = {
                 parts: [{ text: languageConfig[currentLanguage].systemPrompt }]
             };
@@ -281,3 +281,4 @@ document.addEventListener("DOMContentLoaded", () => {
     // --- END: AI CHATBOT LOGIC ---
 
 });
+
