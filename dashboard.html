@@ -43,88 +43,184 @@
             </nav>
         </header>
 
-        <main class="page">
-            <section class="relative py-20 md:py-24">
-                <div class="container mx-auto px-6 text-center">
-                    <h1 class="text-4xl md:text-5xl font-extrabold leading-tight animate-on-scroll">
-                        Welcome to Your <span class="text-primary">Dashboard</span>
-                    </h1>
-                    <p class="mt-6 text-lg text-light max-w-2xl mx-auto animate-on-scroll" style="transition-delay: 150ms;">
-                        Here's your personalized space to manage your wellness journey. You are not alone. 🌸
-                    </p>
+        <main class="page container mx-auto px-6 py-10">
+            <div class="flex justify-between items-end mb-8 border-b pb-4">
+                <div>
+                    <h1 class="text-3xl font-bold mb-2">My Wellness Dashboard</h1>
+                    <p class="text-light">Welcome back! Here is your personal overview and schedule.</p>
                 </div>
-            </section>
+                <a href="booking.html" class="btn btn-primary shadow-md hover:shadow-lg transition-shadow">➕ Book New Session</a>
+            </div>
 
-            <section class="pb-16 sm:pb-24">
-                <div class="container mx-auto px-6">
-                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        <div class="animate-on-scroll" style="transition-delay: 100ms;">
-                            <div class="feature-card h-full flex flex-col">
-                                <div>
-                                    <div class="feature-card-icon" style="background: linear-gradient(135deg, #ffdab9, #ffa07a);"><span class="text-2xl">📚</span></div>
-                                    <h3 class="font-bold text-lg mb-2">Saved Resources</h3>
-                                    <p class="text-sm text-light mb-4">Quickly access all your bookmarked articles, videos, and guides.</p>
-                                </div>
-                                <a href="resources.html" class="btn btn-primary w-full mt-auto">View Resources</a>
-                            </div>
-                        </div>
-                        <div class="animate-on-scroll" style="transition-delay: 200ms;">
-                            <div class="feature-card h-full flex flex-col">
-                                <div>
-                                    <div class="feature-card-icon" style="background: linear-gradient(135deg, #89cff0, #6495ed);"><span class="text-2xl">💬</span></div>
-                                    <h3 class="font-bold text-lg mb-2">Chat History</h3>
-                                    <p class="text-sm text-light mb-4">Continue your conversations with the AI support assistant.</p>
-                                </div>
-                                <a href="chat.html" class="btn btn-primary w-full mt-auto">Open Chat</a>
-                            </div>
-                        </div>
-                        <div class="animate-on-scroll" style="transition-delay: 300ms;">
-                            <div class="feature-card h-full flex flex-col">
-                                <div>
-                                    <div class="feature-card-icon" style="background: linear-gradient(135deg, #e6e6fa, #d8bfd8);"><span class="text-2xl">👥</span></div>
-                                    <h3 class="font-bold text-lg mb-2">Your Forum Posts</h3>
-                                    <p class="text-sm text-light mb-4">Check your contributions and discussions in the community forum.</p>
-                                </div>
-                                <a href="forum.html" class="btn btn-primary w-full mt-auto">View Posts</a>
-                            </div>
-                        </div>
-                        <div class="animate-on-scroll" style="transition-delay: 400ms;">
-                            <div class="feature-card h-full flex flex-col">
-                                <div>
-                                    <div class="feature-card-icon" style="background: linear-gradient(135deg, #98fb98, #66cdab);"><span class="text-2xl">📅</span></div>
-                                    <h3 class="font-bold text-lg mb-2">Booking History</h3>
-                                    <p class="text-sm text-light mb-4">Review your previous and upcoming appointments.</p>
-                                </div>
-                                <a href="booking.html" class="btn btn-primary w-full mt-auto">View Bookings</a>
-                            </div>
-                        </div>
-                        <div class="animate-on-scroll" style="transition-delay: 500ms;">
-                            <div class="feature-card h-full flex flex-col">
-                                <div>
-                                    <div class="feature-card-icon" style="background: linear-gradient(135deg, #ffb6c1, #ffc1cc);"><span class="text-2xl">🌸</span></div>
-                                    <h3 class="font-bold text-lg mb-2">Daily Tips</h3>
-                                    <p class="text-sm text-light mb-4">Stay inspired with new tips every day for a healthier mindset.</p>
-                                </div>
-                                <a href="#" class="btn btn-primary w-full mt-auto">See Tips</a>
-                            </div>
-                        </div>
-                        <div class="animate-on-scroll" style="transition-delay: 600ms;">
-                            <div class="feature-card h-full flex flex-col">
-                                <div>
-                                    <div class="feature-card-icon" style="background: linear-gradient(135deg, #d8bfd8, #dda0dd);"><span class="text-2xl">⚙️</span></div>
-                                    <h3 class="font-bold text-lg mb-2">Profile Settings</h3>
-                                    <p class="text-sm text-light mb-4">Update your personal info and manage notification preferences.</p>
-                                </div>
-                                <a href="profile.html" class="btn btn-primary w-full mt-auto">Edit Profile</a>
-                            </div>
-                        </div>
+            <div class="grid md:grid-cols-3 gap-6 mb-10">
+                <div class="content-card !p-5 flex items-center gap-4 hover:border-blue-300 transition-colors cursor-pointer" onclick="window.location.href='forum.html'">
+                    <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 text-xl shadow-sm">💬</div>
+                    <div>
+                        <p class="text-sm text-gray-500 font-medium">My Forum Posts</p>
+                        <p class="text-2xl font-bold">View</p> 
                     </div>
                 </div>
-            </section>
+
+                <div class="content-card !p-5 flex items-center gap-4 hover:border-green-300 transition-colors cursor-pointer" onclick="window.location.href='resources.html'">
+                    <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-green-600 text-xl shadow-sm">📚</div>
+                    <div>
+                        <p class="text-sm text-gray-500 font-medium">Saved Resources</p>
+                        <p class="text-2xl font-bold">View</p> 
+                    </div>
+                </div>
+
+                <div class="content-card !p-5 flex items-center gap-4 hover:border-purple-400 transition-colors cursor-pointer border border-transparent" onclick="window.location.href='chat.html'">
+                    <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 text-xl shadow-sm">🤖</div>
+                    <div>
+                        <p class="text-sm text-gray-500 font-medium">Need to talk right now?</p>
+                        <p class="text-lg font-bold text-primary">Chat with AI</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-10">
+                <h2 class="text-xl font-bold mb-6 flex items-center gap-2"><span class="text-2xl">📅</span> My Upcoming Sessions</h2>
+                <div id="user-upcoming-grid" class="grid md:grid-cols-2 gap-6">
+                    </div>
+            </div>
+
+            <div class="bg-gray-50 rounded-xl shadow-sm border border-gray-200 p-6 mb-10">
+                <h2 class="text-xl font-bold mb-6 text-gray-700 flex items-center gap-2"><span class="text-2xl">🕰️</span> Past & Completed Sessions</h2>
+                <div id="user-past-grid" class="grid md:grid-cols-2 gap-6">
+                    </div>
+            </div>
+
+            <div class="bg-blue-50/50 rounded-xl shadow-sm border border-blue-100 p-6 mb-10">
+                <h2 class="text-xl font-bold mb-6 text-blue-800 flex items-center gap-2"><span class="text-2xl">💬</span> My Anonymous Forum Posts</h2>
+                <div id="user-forum-grid" class="grid md:grid-cols-2 gap-6">
+                    </div>
+            </div>
+
         </main>
     </div>
     
     <script src="main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const upcomingGrid = document.getElementById('user-upcoming-grid');
+            const pastGrid = document.getElementById('user-past-grid');
+            
+            // Get the logged-in user's email
+            const userEmail = sessionStorage.getItem('userEmail');
+            
+            if (!userEmail) {
+                upcomingGrid.innerHTML = '<p class="text-red-500">Please log in to view your appointments.</p>';
+                return;
+            }
+
+            // --- FETCH APPOINTMENTS ---
+            try {
+                const response = await fetch(`http://localhost:3000/api/user/appointments?email=${userEmail}`);
+                const appointments = await response.json();
+
+                if (appointments.length === 0) {
+                    upcomingGrid.innerHTML = '<p class="text-gray-500 bg-gray-50 p-4 rounded-lg">You have no upcoming appointments. Click the button above to book one!</p>';
+                    pastGrid.innerHTML = '<p class="text-gray-500">No past sessions.</p>';
+                } else {
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+
+                    appointments.forEach(appt => {
+                        const apptDateObj = new Date(appt.date);
+                        const formattedDate = apptDateObj.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+                        
+                        // Determine status badge
+                        let statusBadge = '';
+                        if (appt.status === 'completed') {
+                            statusBadge = '<span class="tag bg-green-100 text-green-800">✅ Completed</span>';
+                        } else if (apptDateObj < today) {
+                            statusBadge = '<span class="tag bg-red-100 text-red-800">⚠️ Missed / Pending Review</span>';
+                        } else {
+                            statusBadge = '<span class="tag bg-blue-100 text-blue-800">⏳ Upcoming</span>';
+                        }
+
+                        // Build Card 
+                        const card = `
+                            <div class="content-card !p-5 ${appt.status === 'completed' ? 'opacity-80' : 'border-l-4 border-primary'}">
+                                <div class="flex justify-between items-start mb-3">
+                                    <h3 class="font-bold text-lg">${formattedDate}</h3>
+                                </div>
+                                <p class="text-sm text-gray-600 mb-2"><strong>Time:</strong> ${appt.time}</p>
+                                <p class="text-sm text-gray-600 mb-4"><strong>Mode:</strong> ${appt.mode.toUpperCase()}</p>
+                                <p class="text-sm text-gray-500 italic mb-4">" ${appt.reason || 'No specific reason provided'} "</p>
+                                
+                                <div class="flex justify-between items-center mt-4 border-t pt-3">
+                                    ${statusBadge}
+                                    ${appt.mode === 'online' && appt.status !== 'completed' && apptDateObj >= today ? `<span class="text-xs text-gray-400">Link will be emailed</span>` : ''}
+                                </div>
+                            </div>
+                        `;
+
+                        // Sort into the correct grid
+                        if (appt.status === 'completed' || apptDateObj < today) {
+                            pastGrid.innerHTML += card;
+                        } else {
+                            upcomingGrid.innerHTML += card;
+                        }
+                    });
+
+                    if (upcomingGrid.innerHTML.trim() === '') upcomingGrid.innerHTML = '<p class="text-gray-500 bg-gray-50 p-4 rounded-lg border border-dashed border-gray-300">No upcoming appointments scheduled.</p>';
+                    if (pastGrid.innerHTML.trim() === '') pastGrid.innerHTML = '<p class="text-gray-500">No past sessions.</p>';
+                }
+
+            } catch (error) {
+                console.error("Error loading personal appointments:", error);
+                upcomingGrid.innerHTML = '<p class="text-red-500">Failed to load your schedule from the server.</p>';
+            }
+
+            // --- FETCH USER'S FORUM POSTS ---
+            const forumGrid = document.getElementById('user-forum-grid');
+            try {
+                const forumRes = await fetch(`http://localhost:3000/api/user/forum?email=${userEmail}`);
+                const forumPosts = await forumRes.json();
+
+                if (forumPosts.length === 0) {
+                    forumGrid.innerHTML = '<p class="text-gray-500 bg-white p-4 rounded-lg border border-gray-200">You haven\'t posted anything on the forum yet.</p>';
+                } else {
+                    forumPosts.forEach(post => {
+                        const date = new Date(post.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                        forumGrid.innerHTML += `
+                            <div class="bg-white p-5 rounded-lg border border-gray-200 shadow-sm relative group">
+                                <p class="text-gray-800 text-lg mb-4">"${post.content}"</p>
+                                <div class="flex justify-between items-center text-xs text-gray-500 border-t pt-3">
+                                    <span>Posted on ${date}</span>
+                                    <button onclick="deletePost(${post.id})" class="text-red-500 hover:text-red-700 font-bold bg-red-50 px-3 py-1 rounded transition-colors">Delete Post</button>
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+            } catch (error) {
+                console.error("Error loading forum posts:", error);
+                forumGrid.innerHTML = '<p class="text-red-500">Failed to load your posts.</p>';
+            }
+
+        });
+
+        // --- DELETE POST FUNCTION ---
+        async function deletePost(postId) {
+            if(!confirm("Are you sure you want to permanently delete this post?")) return;
+
+            try {
+                const response = await fetch(`http://localhost:3000/api/forum/${postId}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok) {
+                    window.location.reload(); // Refresh the page to show it's gone
+                } else {
+                    alert('Failed to delete post.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Could not connect to server.');
+            }
+        }
+    </script>
 </body>
 </html>
-
