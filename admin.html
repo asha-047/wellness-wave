@@ -64,13 +64,8 @@
     </div>
     
     <script src="main.js"></script>
-    <script>
-        const stats = [
-            { label: 'Active Users', value: '1,247', change: '+12.3%', changeType: 'success', icon: '👥' },
-            { label: 'AI Chat Sessions', value: '3,456', change: '+8.7%', changeType: 'success', icon: '💬' },
-            { label: 'Appointments Booked', value: '234', change: '-2.1%', changeType: 'danger', icon: '📅' },
-            { label: 'Resource Views', value: '8,912', change: '+15.4%', changeType: 'success', icon: '📚' }
-        ];
+   <script>
+        // Keeping Trends and Activity static for now, but we will make the top stats real!
         const trends = [
             { label: 'Week 1', value: 1340, max: 1500 }, { label: 'Week 2', value: 1456, max: 1500 },
             { label: 'Week 3', value: 1389, max: 1500 }, { label: 'Week 4', value: 1247, max: 1500 }
@@ -79,18 +74,49 @@
             { text: 'High-volume anxiety support requests', time: '2 hours ago', icon: '⚠️' },
             { text: 'Crisis intervention booked', time: '3 hours ago', icon: '🆘' },
         ];
-        document.addEventListener('DOMContentLoaded', () => {
+
+        document.addEventListener('DOMContentLoaded', async () => {
             const statsGrid = document.getElementById('stats-grid');
-            stats.forEach(stat => {
-                const changeColor = stat.changeType === 'success' ? 'stat-success-text' : 'stat-danger-text';
-                const bgColor = stat.changeType === 'success' ? 'stat-success-bg' : 'stat-danger-bg';
-                statsGrid.innerHTML += `<div class="content-card"><div class="flex justify-between items-center"><div class="stat-card-icon ${bgColor}">${stat.icon}</div><span class="text-sm font-bold ${changeColor}">${stat.change}</span></div><p class="text-3xl font-bold mt-4">${stat.value}</p><p class="text-light text-sm">${stat.label}</p></div>`;
-            });
+            
+            try {
+                // FETCH REAL DATA FROM YOUR DATABASE!
+                const response = await fetch('http://localhost:3000/api/admin/stats');
+                const dbStats = await response.json();
+
+                // Build the stat boxes using the real database numbers
+                const stats = [
+                    { label: 'Registered Users', value: dbStats.users, change: '+1 New', changeType: 'success', icon: '👥' },
+                    { label: 'Total Forum Posts', value: dbStats.forumPosts, change: 'Active', changeType: 'success', icon: '💬' },
+                    { label: 'Appointments Booked', value: dbStats.appointments, change: 'Needs Review', changeType: 'danger', icon: '📅' },
+                    { label: 'Resource Views', value: '8,912', change: '+15.4%', changeType: 'success', icon: '📚' } // Still static for now
+                ];
+
+                stats.forEach(stat => {
+                    const changeColor = stat.changeType === 'success' ? 'stat-success-text' : 'stat-danger-text';
+                    const bgColor = stat.changeType === 'success' ? 'stat-success-bg' : 'stat-danger-bg';
+                    statsGrid.innerHTML += `
+                        <div class="content-card">
+                            <div class="flex justify-between items-center">
+                                <div class="stat-card-icon ${bgColor}">${stat.icon}</div>
+                                <span class="text-sm font-bold ${changeColor}">${stat.change}</span>
+                            </div>
+                            <p class="text-3xl font-bold mt-4">${stat.value}</p>
+                            <p class="text-light text-sm">${stat.label}</p>
+                        </div>`;
+                });
+            } catch (error) {
+                console.error("Failed to load admin stats:", error);
+                statsGrid.innerHTML = `<p class="text-red-500">Failed to connect to database to load stats.</p>`;
+            }
+
+            // Load the static trend bars
             const usageTrends = document.getElementById('usage-trends');
             trends.forEach(trend => {
                 const percentage = (trend.value / trend.max) * 100;
                 usageTrends.innerHTML += `<div><div class="flex justify-between items-center mb-1 text-sm"><p>${trend.label}</p><p class="font-bold">${trend.value}</p></div><div class="progress-bar"><div style="background: var(--primary-gradient); width: ${percentage}%"></div></div></div>`;
             });
+
+            // Load the static activity feed
             const recentActivity = document.getElementById('recent-activity');
             activity.forEach(item => {
                 recentActivity.innerHTML += `<li class="flex items-start gap-4"><div class="stat-card-icon !w-10 !h-10 bg-gray-100">${item.icon}</div><div><p class="font-medium text-sm">${item.text}</p><p class="text-xs text-light">${item.time}</p></div></li>`;
