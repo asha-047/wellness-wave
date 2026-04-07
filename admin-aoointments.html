@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Appointments - Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="admin-appointments.html" class="bg-image">
+
+    <script>
+        // Protect this page - redirect if not logged in as admin
+        if (sessionStorage.getItem('userRole') !== 'admin') {
+            window.location.href = 'login.html';
+        }
+    </script>
+
+    <div id="preloader" class="preloader"><div class="spinner"></div></div>
+    
+    <div id="main-content">
+        <header class="sticky top-0 z-50">
+            <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+                <a href="index.html" class="text-xl font-bold flex items-center gap-2">
+                    <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    WellnessWave
+                </a>
+                <div class="hidden md:flex items-center space-x-2 text-sm font-medium">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <a href="chat.html" class="nav-link">Chat Support</a>
+                    <a href="admin-appointments.html" class="nav-link">Manage Appointments</a>
+                    <a href="resources.html" class="nav-link">Resources</a>
+                    <a href="forum.html" class="nav-link">Community</a>
+                    <a href="admin.html" class="nav-link">Admin Portal</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button id="logout-button" class="btn btn-primary">Sign Out</button>
+                </div>
+            </nav>
+        </header>
+<main class="page container mx-auto px-6 py-10">
+            <h1 class="text-3xl font-bold mb-2">Manage Appointments</h1>
+            <p class="text-light mb-8">Review bookings, view client history, and securely log session notes.</p>
+
+            <h2 class="text-xl font-bold mb-4 text-primary border-b pb-2">Upcoming & Pending Sessions</h2>
+            <div id="upcoming-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10"></div>
+
+            <h2 class="text-xl font-bold mb-4 text-green-600 border-b pb-2">Completed Sessions (Private Records)</h2>
+            <div id="completed-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10"></div>
+        </main>
+
+        <div id="completionModal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center backdrop-blur-sm">
+            <div class="bg-white p-8 rounded-xl w-full max-w-md shadow-2xl">
+                <h3 class="text-2xl font-bold mb-2">Complete Session</h3>
+                <p class="text-sm text-gray-500 mb-6">These notes are strictly private and only visible to counselors.</p>
+                
+                <form id="completionForm">
+                    <input type="hidden" id="completeApptId">
+                    
+                    <label class="block mb-2 text-sm font-bold text-gray-700">Session Brief / Outcomes</label>
+                    <textarea id="sessionNotes" class="input-field mb-4" rows="4" placeholder="Enter behavioral patterns, outcomes, or general notes..."></textarea>
+                    
+                    <label class="block mb-2 text-sm font-bold text-gray-700">Attach Document (PDF, DOCX) - Optional</label>
+                    <input type="file" id="sessionDoc" class="w-full mb-6 text-sm border border-gray-300 p-2 rounded cursor-pointer">
+                    
+                    <div class="flex justify-end gap-3">
+                        <button type="button" onclick="closeCompletionModal()" class="btn btn-outline">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save Securely</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div id="historyModal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center backdrop-blur-sm">
+            <div class="bg-white p-8 rounded-xl w-full max-w-2xl max-h-[85vh] overflow-y-auto shadow-2xl">
+                <div class="flex justify-between items-center mb-6 border-b pb-3">
+                    <h3 class="text-2xl font-bold" id="historyTitle">Client History</h3>
+                    <button onclick="closeHistoryModal()" class="text-gray-400 hover:text-red-500 text-3xl font-bold leading-none">&times;</button>
+                </div>
+                <div id="historyContent" class="space-y-6">
+                    </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            loadAppointments();
+        });
+
+        async function loadAppointments() {
+            const upcomingGrid = document.getElementById('upcoming-grid');
+            const completedGrid = document.getElementById('completed-grid');
+            upcomingGrid.innerHTML = ''; completedGrid.innerHTML = '';
+
+            try {
+                const response = await fetch('http://localhost:3000/api/admin/appointments');
+                const appointments = await response.json();
+
+                appointments.forEach(appt => {
+                    const apptDateObj = new Date(appt.date);
+                    const formattedDate = apptDateObj.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+                    
+                    // Button logic
+                    let buttonsHTML = `<button onclick="viewHistory('${appt.email}', '${appt.name}')" class="btn btn-outline w-full mt-3 !py-2 !text-sm">🔍 View Client History</button>`;
+                    
+                    if (appt.status === 'completed') {
+                        // NEW: Add the Undo button for completed sessions
+                        buttonsHTML += `<button onclick="undoComplete(${appt.id})" class="btn w-full mt-2 !py-2 !text-sm text-center bg-yellow-500 text-white hover:bg-yellow-600">↩️ Undo Completion</button>`;
+                    } else {
+                        // Standard buttons for pending sessions
+                        if (appt.mode === 'online') {
+                            buttonsHTML += `<a href="mailto:${appt.email}?subject=WellnessWave Link&body=Here is your link!" class="btn btn-outline w-full mt-2 !py-2 !text-sm text-center">📧 Send Link</a>`;
+                        }
+                        buttonsHTML += `<button onclick="openCompletionModal(${appt.id})" class="btn w-full mt-2 !py-2 !text-sm text-center bg-green-500 text-white hover:bg-green-600">📝 Add Notes & Complete</button>`;
+                    }
+
+                    // Build Card
+                    const card = `
+                        <div class="content-card !p-5 relative ${appt.status === 'completed' ? 'border-l-4 border-green-500' : 'border-l-4 border-primary'}">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="font-bold text-lg">${appt.name}</h3>
+                                <span class="tag ${appt.mode === 'online' ? 'bg-blue-100' : 'bg-gray-200'}">${appt.mode.toUpperCase()}</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-1"><strong>Date:</strong> ${formattedDate} at ${appt.time}</p>
+                            <p class="text-sm text-gray-500 mb-3 italic">Reason: "${appt.reason || 'None'}"</p>
+                            ${buttonsHTML}
+                        </div>
+                    `;
+
+                    if (appt.status === 'completed') {
+                        completedGrid.innerHTML += card;
+                    } else {
+                        upcomingGrid.innerHTML += card;
+                    }
+                });
+
+                if(upcomingGrid.innerHTML === '') upcomingGrid.innerHTML = '<p class="text-light">No pending appointments.</p>';
+                if(completedGrid.innerHTML === '') completedGrid.innerHTML = '<p class="text-light">No completed appointments.</p>';
+
+            } catch (error) {
+                console.error("Error loading appointments:", error);
+            }
+        }
+
+        // --- COMPLETION MODAL LOGIC ---
+        function openCompletionModal(id) {
+            document.getElementById('completeApptId').value = id;
+            document.getElementById('completionModal').classList.remove('hidden');
+        }
+
+        function closeCompletionModal() {
+            document.getElementById('completionModal').classList.add('hidden');
+            document.getElementById('completionForm').reset();
+        }
+
+        document.getElementById('completionForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('completeApptId').value;
+            const notes = document.getElementById('sessionNotes').value;
+            const fileInput = document.getElementById('sessionDoc');
+
+            // We must use FormData because we are sending a physical file, not just text
+            const formData = new FormData();
+            formData.append('notes', notes);
+            if (fileInput.files[0]) {
+                formData.append('document', fileInput.files[0]);
+            }
+
+            try {
+                const response = await fetch(`http://localhost:3000/api/admin/appointments/${id}/complete`, {
+                    method: 'PUT',
+                    body: formData // Note: We do NOT set headers for FormData, fetch does it automatically
+                });
+
+                if (response.ok) {
+                    closeCompletionModal();
+                    loadAppointments(); // Reload to move it to the completed section
+                } else {
+                    alert('Failed to save session data.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+
+        // --- HISTORY MODAL LOGIC ---
+        async function viewHistory(email, name) {
+            document.getElementById('historyTitle').innerText = `Clinical History: ${name}`;
+            const historyContent = document.getElementById('historyContent');
+            historyContent.innerHTML = '<div class="spinner mx-auto"></div>';
+            document.getElementById('historyModal').classList.remove('hidden');
+
+            try {
+                const response = await fetch(`http://localhost:3000/api/admin/appointments/history?email=${email}`);
+                const history = await response.json();
+
+                historyContent.innerHTML = '';
+                
+                if (history.length === 0) {
+                    historyContent.innerHTML = `<p class="text-gray-500 italic text-center py-4">No past completed sessions found for ${name}.</p>`;
+                    return;
+                }
+
+                history.forEach(session => {
+                    const dateObj = new Date(session.date);
+                    const formattedDate = dateObj.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+                    
+                    let docLink = '';
+                    if (session.admin_doc) {
+                        docLink = `<a href="http://localhost:3000/uploads/${session.admin_doc}" target="_blank" class="text-blue-600 hover:underline text-sm font-bold mt-3 block">📄 View Attached Document</a>`;
+                    }
+
+                    const historyCard = `
+                        <div class="bg-gray-50 p-5 rounded-lg border border-gray-200">
+                            <div class="flex justify-between items-center mb-2 border-b border-gray-200 pb-2">
+                                <span class="font-bold text-gray-800">${formattedDate}</span>
+                                <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">Completed</span>
+                            </div>
+                            <p class="text-sm text-gray-500 mb-2"><strong>Student's Stated Reason:</strong> "${session.reason || 'None'}"</p>
+                            
+                            <div class="mt-4">
+                                <p class="text-sm font-bold text-gray-700 mb-1">Counselor Notes:</p>
+                                <p class="text-sm text-gray-800 bg-white p-3 rounded border border-gray-300 whitespace-pre-wrap">${session.admin_notes || 'No notes recorded.'}</p>
+                            </div>
+                            ${docLink}
+                        </div>
+                    `;
+                    historyContent.innerHTML += historyCard;
+                });
+            } catch (error) {
+                console.error("Error fetching history:", error);
+                historyContent.innerHTML = '<p class="text-red-500">Failed to load history.</p>';
+            }
+        }
+
+        function closeHistoryModal() {
+            document.getElementById('historyModal').classList.add('hidden');
+        }
+        // --- UNDO COMPLETION LOGIC ---
+        async function undoComplete(appointmentId) {
+            // Add a quick confirmation popup to ensure they didn't misclick the undo button
+            if(!confirm("Are you sure you want to undo this? It will be moved back to the Pending list.")) return;
+
+            try {
+                const response = await fetch(`http://localhost:3000/api/admin/appointments/${appointmentId}/undo`, {
+                    method: 'PUT'
+                });
+
+                if (response.ok) {
+                    loadAppointments(); // Reload the page to move the card back to Upcoming!
+                } else {
+                    alert('Failed to undo completion.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Could not connect to server.');
+            }
+        }
+    </script>
+</body>
+</html>
