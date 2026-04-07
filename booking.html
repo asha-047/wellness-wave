@@ -80,7 +80,7 @@
           </form>
 
           <div id="confirmation" class="hidden confirmation-message">
-            ✅ Your appointment has been booked successfully!
+              Your appointment has been booked successfully!
           </div>
         </div>
       </div>
@@ -89,16 +89,59 @@
 
   <script src="main.js"></script>
   <script>
-    document.getElementById("appointmentForm").addEventListener("submit", function(e) {
-      e.preventDefault();
-      this.reset();
+    const dateInput = document.getElementById("appointmentDate");
+    const today = new Date().toISOString().split('T')[0];
+    dateInput.min = today;
+    document.getElementById("appointmentForm").addEventListener("submit", async function(e) {
+      e.preventDefault(); // Prevent the page from reloading
       
-      const confirmationDiv = document.getElementById("confirmation");
-      confirmationDiv.classList.remove("hidden");
-      
-      setTimeout(() => {
-          confirmationDiv.classList.add("hidden");
-      }, 5000);
+      // 1. Get the values from the input fields
+      const nameInput = document.getElementById("studentName").value;
+      const emailInput = document.getElementById("studentEmail").value;
+      const dateInput = document.getElementById("appointmentDate").value;
+      const timeInput = document.getElementById("appointmentTime").value;
+      const modeInput = document.getElementById("mode").value;
+      const reasonInput = document.getElementById("reason").value;
+
+      try {
+          // 2. Send the data to your Node.js backend
+          const response = await fetch('http://localhost:3000/api/book', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ 
+                  name: nameInput,
+                  email: emailInput,
+                  date: dateInput,
+                  time: timeInput,
+                  mode: modeInput,
+                  reason: reasonInput
+              })
+          });
+
+          const data = await response.json();
+
+          if (response.ok) {
+              // 3. Success! Show the confirmation message
+              const confirmationDiv = document.getElementById("confirmation");
+              confirmationDiv.classList.remove("hidden");
+              
+              // Clear the form fields
+              this.reset();
+              
+              // Hide the confirmation message after 5 seconds
+              setTimeout(() => {
+                  confirmationDiv.classList.add("hidden");
+              }, 5000);
+          } else {
+              // Failed! Show the error from the server
+              alert("Failed to book appointment: " + data.message);
+          }
+      } catch (error) {
+          console.error('Error:', error);
+          alert('Could not connect to the server. Is your backend running?');
+      }
     });
   </script>
 </body>
