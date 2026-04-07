@@ -49,25 +49,64 @@
             const userLoginBtn = document.getElementById('user-login-btn');
             const adminLoginBtn = document.getElementById('admin-login-btn');
             const loginForm = document.getElementById('login-form');
-            let loginType = 'user';
+            let loginType = 'user'; // Default to user login
 
-            userLoginBtn.addEventListener('click', () => {
+            // Handle switching to User tab
+            userLoginBtn.addEventListener('click', (e) => {
+                e.preventDefault(); // Prevent form submission if clicked
                 loginType = 'user';
                 userLoginBtn.classList.add('bg-primary', 'text-white', 'shadow-md');
                 adminLoginBtn.classList.remove('bg-primary', 'text-white', 'shadow-md');
             });
 
-            adminLoginBtn.addEventListener('click', () => {
+            // Handle switching to Admin tab
+            adminLoginBtn.addEventListener('click', (e) => {
+                e.preventDefault(); // Prevent form submission if clicked
                 loginType = 'admin';
                 adminLoginBtn.classList.add('bg-primary', 'text-white', 'shadow-md');
                 userLoginBtn.classList.remove('bg-primary', 'text-white', 'shadow-md');
             });
 
-            loginForm.addEventListener('submit', (e) => {
+            // Handle the actual login submission
+            loginForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
-                sessionStorage.setItem('userRole', loginType);
-                // UPDATED: Redirect to dashboard.html for users
-                window.location.href = (loginType === 'admin') ? 'admin.html' : 'dashboard.html';
+                
+                const emailInput = document.querySelector('input[type="email"]').value;
+                const passwordInput = document.querySelector('input[type="password"]').value;
+
+                try {
+                    const response = await fetch('http://localhost:3000/api/login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ 
+                            email: emailInput, 
+                            password: passwordInput, 
+                            role: loginType 
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        // 1. Save their role (user vs admin)
+                        sessionStorage.setItem('userRole', loginType);
+                        
+                        // 2. Save their unique database ID
+                        sessionStorage.setItem('userId', data.user.id);
+
+                        sessionStorage.setItem('userEmail', data.user.email);
+                        
+                        // 3. Trigger the redirect!
+                        window.location.href = (loginType === 'admin') ? 'admin.html' : 'dashboard.html';
+                    } else {
+                        alert(data.message);
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Could not connect to the server.');
+                }
             });
         });
     </script>
