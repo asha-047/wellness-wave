@@ -39,5 +39,42 @@
     </div>
     
     <script src="main.js"></script>
+    <script>
+    document.querySelector('form').addEventListener('submit', async (e) => {
+        e.preventDefault(); // Prevent the page from reloading
+        
+        // Get the values the user typed in
+        const emailInput = document.querySelector('input[type="email"]').value;
+        const passwordInput = document.querySelector('input[type="password"]').value;
+
+        try {
+            // Send the data to your Node.js backend
+            const response = await fetch('http://localhost:3000/api/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ 
+                    email: emailInput, 
+                    password: passwordInput 
+                })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                // Success! Alert the user and send them to the login page
+                alert('Account created successfully! ✨ Please sign in.');
+                window.location.href = 'login.html';
+            } else {
+                // Failed! (e.g., Email already exists)
+                alert(data.message);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Could not connect to the server. Is your backend running?');
+        }
+    });
+</script>
 </body>
 </html>
